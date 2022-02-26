@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ui/constants/constants.dart';
+import 'package:ui/ui/widgets/custom_button.dart';
 import 'package:ui/ui/widgets/custom_shape.dart';
 import 'package:ui/ui/widgets/responsive_ui.dart';
 import 'package:ui/ui/widgets/textformfield.dart';
@@ -58,7 +59,20 @@ class _SignInScreenState extends State<SignInScreen> {
               form(),
               forgetPassTextRow(),
               SizedBox(height: _height / 12),
-              button(),
+              CustomButton(
+                large: _large,
+                width: _width,
+                medium: _medium,
+                text: 'SIGN IN',
+                onPressed: () {
+                  Scaffold.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Login Successful'),
+                    ),
+                  );
+                  Navigator.of(context).pushNamed(HOME);
+                },
+              ),
               signUpTextRow(),
             ],
           ),
@@ -120,9 +134,9 @@ class _SignInScreenState extends State<SignInScreen> {
           Text(
             "Welcome To AimsysCloud",
             style: TextStyle(
-              color: textColor,
-              fontWeight: FontWeight.bold,
-              fontSize: _large ? 60 : (_medium ? 50 : 30),
+              color: contrastColor,
+              fontWeight: FontWeight.w500,
+             fontSize: _large ? 30 : (_medium ? 17.5 : 15)
             ),
           ),
         ],
@@ -138,7 +152,7 @@ class _SignInScreenState extends State<SignInScreen> {
           Text(
             "Sign in to your account",
             style: TextStyle(
-              color: textColor,
+              color: contrastColor,
               fontWeight: FontWeight.w200,
               fontSize: _large ? 20 : (_medium ? 17.5 : 15),
             ),
@@ -198,36 +212,21 @@ class _SignInScreenState extends State<SignInScreen> {
           Text(
             "Forgot your password?",
             style: TextStyle(
-                color: textColor,
+                color: contrastColor,
                 fontWeight: FontWeight.w400,
                 fontSize: _large ? 14 : (_medium ? 12 : 10)),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget button() {
-    return RaisedButton(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {
-        Scaffold.of(context)
-            .showSnackBar(const SnackBar(content: Text('Login Successful')));
-      },
-      textColor: textColor,
-      padding: const EdgeInsets.all(0.0),
-      child: Container(
-        alignment: Alignment.center,
-        width: _large ? _width / 4 : (_medium ? _width / 3.75 : _width / 3.5),
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(20.0),
+          const SizedBox(
+            width: 5,
+          ),
+          GestureDetector(
+            onTap: () {},
+            child: const Text(
+              "Recover",
+              style: TextStyle(fontWeight: FontWeight.w600, color: buttonColor),
             ),
-            color: Color(0xff92A4BC)),
-        padding: const EdgeInsets.all(12.0),
-        child: Text('SIGN IN',
-            style: TextStyle(fontSize: _large ? 14 : (_medium ? 12 : 10))),
+          )
+        ],
       ),
     );
   }
@@ -241,7 +240,7 @@ class _SignInScreenState extends State<SignInScreen> {
           Text(
             "Don't have an account?",
             style: TextStyle(
-                color: textColor,
+                color: contrastColor,
                 fontWeight: FontWeight.w400,
                 fontSize: _large ? 14 : (_medium ? 12 : 10)),
           ),
@@ -256,7 +255,7 @@ class _SignInScreenState extends State<SignInScreen> {
               "Sign up",
               style: TextStyle(
                 fontWeight: FontWeight.w800,
-                color: Colors.red[400],
+                color: buttonColor,
                 fontSize: _large ? 19 : (_medium ? 17 : 15),
               ),
             ),

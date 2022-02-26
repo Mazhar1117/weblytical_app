@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ui/constants/constants.dart';
+import 'package:ui/ui/screens/dashboard.dart';
+import 'package:ui/ui/widgets/custom_button.dart';
 import 'package:ui/ui/widgets/custom_shape.dart';
 import 'package:ui/ui/widgets/responsive_ui.dart';
 import 'package:ui/ui/widgets/textformfield.dart';
@@ -33,7 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController fNameController = TextEditingController();
-  TextEditingController lNameController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
   TextEditingController contactController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey();
   // Validator validator = Validator();
@@ -59,7 +61,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
               form(),
               acceptTermsTextRow(),
               SizedBox(height: _height / 60),
-              button(),
+              CustomButton(
+                large: _large,
+                width: _width,
+                medium: _medium,
+                text: 'SIGN UP',
+                onPressed: () {
+                  Navigator.of(context).pushNamed(HOME);
+                },
+              ),
               SizedBox(height: _height / 7),
             ],
           ),
@@ -79,9 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: _large
                   ? _height / 4
                   : (_medium ? _height / 3.75 : _height / 3.5),
-              decoration: const BoxDecoration(
-                gradient: firstGradient
-              ),
+              decoration: const BoxDecoration(gradient: firstGradient),
             ),
           ),
         ),
@@ -93,9 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: _large
                   ? _height / 4.5
                   : (_medium ? _height / 4.25 : _height / 4),
-              decoration: const BoxDecoration(
-                gradient: secondGradient
-              ),
+              decoration: const BoxDecoration(gradient: secondGradient),
             ),
           ),
         ),
@@ -147,7 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           children: <Widget>[
             firstNameTextFormField(),
             SizedBox(height: _height / 60.0),
-            lastNameTextFormField(),
+            cityTextField(),
             SizedBox(height: _height / 60.0),
             emailTextFormField(),
             SizedBox(height: _height / 60.0),
@@ -166,17 +172,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
       textEditingController: emailController,
       keyboardType: TextInputType.text,
       icon: Icons.person,
-      hint: "First Name",
+      hint: "Name",
     );
   }
 
-  Widget lastNameTextFormField() {
+  Widget cityTextField() {
     return CustomTextField(
       // onPressed: validator.validateName(lNameController.text),
-      textEditingController: lNameController,
+      textEditingController: cityController,
       keyboardType: TextInputType.text,
-      icon: Icons.person,
-      hint: "Last Name",
+      icon: Icons.location_city,
+      hint: "City",
     );
   }
 
@@ -219,7 +225,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         children: <Widget>[
           Theme(
             data: Theme.of(context).copyWith(
-              unselectedWidgetColor: textColor,
+              unselectedWidgetColor: Colors.black87,
             ),
             child: Checkbox(
               checkColor: backgroundColor,
@@ -237,34 +243,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: _large ? 12 : (_medium ? 11 : 10),
-              color: textColor,
+              color: contrastColor,
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget button() {
-    return RaisedButton(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      onPressed: () {},
-      textColor: textColor,
-      padding: const EdgeInsets.all(0.0),
-      child: Container(
-        alignment: Alignment.center,
-//        height: _height / 20,
-        width: _large ? _width / 4 : (_medium ? _width / 3.75 : _width / 3.5),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          color: Color(0xff92A4BC),
-        ),
-        padding: const EdgeInsets.all(12.0),
-        child: Text(
-          'SIGN UP',
-          style: TextStyle(fontSize: _large ? 14 : (_medium ? 12 : 10)),
-        ),
       ),
     );
   }
