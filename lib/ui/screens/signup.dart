@@ -39,6 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController contactController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey();
   // Validator validator = Validator();
+  bool _passwordInVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -207,15 +208,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget passwordTextFormField() {
-    return CustomTextField(
+    return PasswordField(
       // onPressed: validator.validatePasswordLength(passwordController.text),
+      keyboardType: TextInputType.number,
       textEditingController: passwordController,
-      keyboardType: TextInputType.text,
-      obscureText: true,
-      icon: Icons.lock,
+      prefixIcon: Icons.lock,
+      obscureText: _passwordInVisible,
+      suffix: IconButton(
+      icon: Icon(
+        _passwordInVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined, 
+        color: Colors.orange[200], 
+      ),
+      onPressed: () {
+        setState(() {
+          _passwordInVisible = !_passwordInVisible; 
+        });
+      },
+    ),
       hint: "Password",
     );
   }
+  
 
   Widget acceptTermsTextRow() {
     return Container(

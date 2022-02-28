@@ -6,6 +6,7 @@ import 'package:ui/ui/widgets/custom_button.dart';
 import 'package:ui/ui/widgets/custom_shape.dart';
 import 'package:ui/ui/widgets/responsive_ui.dart';
 import 'package:ui/ui/widgets/textformfield.dart';
+import 'package:ui/utils/responsive.dart';
 // import 'package:ui/utils/validator.dart';
 
 class SignInPage extends StatelessWidget {
@@ -36,6 +37,7 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey();
   // Validator validator = Validator();
+  bool _passwordInVisible = true; //a boolean value
 
   @override
   Widget build(BuildContext context) {
@@ -135,8 +137,10 @@ class _SignInScreenState extends State<SignInScreen> {
             "Welcome To AimsysCloud",
             style: TextStyle(
               color: contrastColor,
-              fontWeight: FontWeight.w500,
-             fontSize: _large ? 30 : (_medium ? 17.5 : 15)
+              fontWeight: FontWeight.bold,
+              fontSize: Responsive.isDesktop(context)
+                  ? 40.0
+                  : (Responsive.isTablet(context) ? 25.0 : 15),
             ),
           ),
         ],
@@ -193,12 +197,25 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget passwordTextFormField() {
-    return CustomTextField(
+    return PasswordField(
       // onPressed: validator.validatePasswordLength(passwordController.text),
       keyboardType: TextInputType.number,
       textEditingController: passwordController,
-      icon: Icons.lock,
-      obscureText: true,
+      prefixIcon: Icons.lock,
+      obscureText: _passwordInVisible,
+      suffix: IconButton(
+        icon: Icon(
+          _passwordInVisible
+              ? Icons.visibility_off_outlined
+              : Icons.visibility_outlined,
+          color: Colors.orange[200],
+        ),
+        onPressed: () {
+          setState(() {
+            _passwordInVisible = !_passwordInVisible;
+          });
+        },
+      ),
       hint: "Password",
     );
   }
