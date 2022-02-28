@@ -41,7 +41,8 @@ class _SignInScreenState extends State<SignInScreen> {
   final GlobalKey<FormState> _key = GlobalKey();
   // Validator validator = Validator();
   bool _passwordInVisible = true;
-  final String baseURL = "https://10.0.2.2:8000/api/auth/signin";
+  // final String baseURL = "https://10.0.2.2:8000/api/auth/signin";
+  final String baseURL = "https://127.0.0.1:8000/api/auth/signin";
 
   void getData() async {
     Response res = await get(Uri.parse(baseURL));
