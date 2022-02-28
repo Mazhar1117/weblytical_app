@@ -1,12 +1,16 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:ui/constants/constants.dart';
 import 'package:ui/ui/widgets/custom_button.dart';
 import 'package:ui/ui/widgets/custom_shape.dart';
 import 'package:ui/ui/widgets/responsive_ui.dart';
 import 'package:ui/ui/widgets/textformfield.dart';
+import 'package:ui/utils/responsive.dart';
 // import 'package:ui/utils/validator.dart';
+// import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -36,6 +40,17 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey();
   // Validator validator = Validator();
+  bool _passwordInVisible = true;
+  final String baseURL = "https://10.0.2.2:8000/api/auth/signin";
+
+  void getData() async {
+    Response res = await get(Uri.parse(baseURL));
+
+    if (res.statusCode == 200) {
+      final obj = jsonDecode(res.body);
+      print(obj);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +80,12 @@ class _SignInScreenState extends State<SignInScreen> {
                 medium: _medium,
                 text: 'SIGN IN',
                 onPressed: () {
-                  Scaffold.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Login Successful'),
-                    ),
-                  );
+                  // Scaffold.of(context).showSnackBar(
+                  //   const SnackBar(
+                  //     content: Text('Login Successful'),
+                  //   ),
+                  // );
+                  getData();
                   Navigator.of(context).pushNamed(HOME);
                 },
               ),
@@ -135,8 +151,10 @@ class _SignInScreenState extends State<SignInScreen> {
             "Welcome To AimsysCloud",
             style: TextStyle(
               color: contrastColor,
-              fontWeight: FontWeight.w500,
-             fontSize: _large ? 30 : (_medium ? 17.5 : 15)
+              fontWeight: FontWeight.bold,
+              fontSize: Responsive.isDesktop(context)
+                  ? 40.0
+                  : (Responsive.isTablet(context) ? 25.0 : 15),
             ),
           ),
         ],
@@ -193,12 +211,25 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget passwordTextFormField() {
-    return CustomTextField(
+    return PasswordField(
       // onPressed: validator.validatePasswordLength(passwordController.text),
       keyboardType: TextInputType.number,
       textEditingController: passwordController,
-      icon: Icons.lock,
-      obscureText: true,
+      prefixIcon: Icons.lock,
+      obscureText: _passwordInVisible,
+      suffix: IconButton(
+        icon: Icon(
+          _passwordInVisible
+              ? Icons.visibility_off_outlined
+              : Icons.visibility_outlined,
+          color: Colors.orange[200],
+        ),
+        onPressed: () {
+          setState(() {
+            _passwordInVisible = !_passwordInVisible;
+          });
+        },
+      ),
       hint: "Password",
     );
   }
