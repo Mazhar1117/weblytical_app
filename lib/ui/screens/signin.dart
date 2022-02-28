@@ -40,6 +40,7 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey();
   // Validator validator = Validator();
+<<<<<<< HEAD
   bool _passwordInVisible = true;
   final String baseURL = "https://10.0.2.2:8000/api/auth/signin";
 
@@ -51,6 +52,9 @@ class _SignInScreenState extends State<SignInScreen> {
       print(obj);
     }
   }
+=======
+  bool _passwordInVisible = true; //a boolean value
+>>>>>>> 41c2fbb65f4cff32e16901dc199c9fceb84559b9
 
   @override
   Widget build(BuildContext context) {
