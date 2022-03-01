@@ -1,10 +1,11 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-// import 'package:http/http.dart';
+//import 'package:http/http.dart';
 import 'package:ui/constants/constants.dart';
 import 'package:ui/ui/widgets/custom_button.dart';
 import 'package:ui/ui/widgets/custom_shape.dart';
+import 'package:ui/ui/widgets/model_class.dart';
 import 'package:ui/ui/widgets/responsive_ui.dart';
 import 'package:ui/ui/widgets/textformfield.dart';
 import 'package:ui/utils/responsive.dart';
@@ -41,45 +42,6 @@ class _SignInScreenState extends State<SignInScreen> {
   final GlobalKey<FormState> _key = GlobalKey();
   // Validator validator = Validator();
   bool _passwordInVisible = true;
-  // final String baseURL = "https://10.0.2.2:8000/api/auth/signin";
-  final String baseURL = "https://127.0.0.1:8000/api/auth/signin";
-  void login(email, password) async {
-    Map data = {'email': email, 'password': password};
-    print(data.toString());
-    final response = await http.post(Uri.parse(baseURL),
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: data,
-        encoding: Encoding.getByName("utf-8"));
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> resposne = jsonDecode(response.body);
-      print(resposne);
-    }
-  }
-  // void getData() async {
-  //   Response res = await get(
-  //     Uri.parse(baseURL),
-  //     // headers: {
-  //     //   "Access-Control-Allow-Origin": "*",
-  //     //   "Access-Control-Allow-Credentials": "true",
-  //     //   "Access-Control-Allow-Headers":
-  //     //       "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
-  //     //   "Access-Control-Allow-Methods": "POST, OPTIONS"
-  //     // },
-  //   );
-  //   try {
-  //   if (res.statusCode == 200) {
-  //     final obj = jsonDecode(res.body);
-  //     print(obj);
-  //   }
-  //   }
-  //   catch(e) {
-  //     print(e.toString());
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +76,11 @@ class _SignInScreenState extends State<SignInScreen> {
                   //     content: Text('Login Successful'),
                   //   ),
                   // );
-                  login(emailController.text, passwordController.text);
+                  AuthClass().login(
+                    emailController.text,
+                    passwordController.text,
+                    context
+                  );
                   Navigator.of(context).pushNamed(HOME);
                 },
               ),

@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:ui/constants/constants.dart';
 import 'package:ui/ui/screens/dashboard.dart';
 import 'package:ui/ui/widgets/custom_button.dart';
 import 'package:ui/ui/widgets/custom_shape.dart';
+import 'package:ui/ui/widgets/model_class.dart';
 import 'package:ui/ui/widgets/responsive_ui.dart';
 import 'package:ui/ui/widgets/textformfield.dart';
+import 'package:http/http.dart' as http;
 // import 'package:ui/utils/validator.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -40,6 +44,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _key = GlobalKey();
   // Validator validator = Validator();
   bool _passwordInVisible = true;
+  // final String baseURL = "https://127.0.0.1:8000/api/auth/signin";
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +73,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 medium: _medium,
                 text: 'SIGN UP',
                 onPressed: () {
+                  AuthClass().register(
+                    fNameController.text,
+                    emailController.text,
+                    contactController.text,
+                    passwordController.text,
+                    cityController.text,
+                  );
                   Navigator.of(context).pushNamed(HOME);
                 },
               ),
@@ -170,7 +182,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget firstNameTextFormField() {
     return CustomTextField(
       // onPressed: validator.validateName(fNameController.text),
-      textEditingController: emailController,
+      textEditingController: fNameController,
       keyboardType: TextInputType.text,
       icon: Icons.person,
       hint: "Name",
@@ -215,20 +227,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
       prefixIcon: Icons.lock,
       obscureText: _passwordInVisible,
       suffix: IconButton(
-      icon: Icon(
-        _passwordInVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined, 
-        color: Colors.orange[200], 
+        icon: Icon(
+          _passwordInVisible
+              ? Icons.visibility_off_outlined
+              : Icons.visibility_outlined,
+          color: Colors.orange[200],
+        ),
+        onPressed: () {
+          setState(() {
+            _passwordInVisible = !_passwordInVisible;
+          });
+        },
       ),
-      onPressed: () {
-        setState(() {
-          _passwordInVisible = !_passwordInVisible; 
-        });
-      },
-    ),
       hint: "Password",
     );
   }
-  
 
   Widget acceptTermsTextRow() {
     return Container(
