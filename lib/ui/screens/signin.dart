@@ -9,9 +9,6 @@ import 'package:ui/ui/widgets/model_class.dart';
 import 'package:ui/ui/widgets/responsive_ui.dart';
 import 'package:ui/ui/widgets/textformfield.dart';
 import 'package:ui/utils/responsive.dart';
-// import 'package:ui/utils/validator.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({Key? key}) : super(key: key);

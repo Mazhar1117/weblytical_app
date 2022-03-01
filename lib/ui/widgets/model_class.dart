@@ -18,7 +18,6 @@ class AuthClass {
     print(data);
 
     String body = json.encode(data);
-    var url = 'Your url here';
     var response = await http.post(
       Uri.parse(registerURL),
       body: body,
@@ -46,9 +45,8 @@ class AuthClass {
     print(data);
 
     String body = json.encode(data);
-    var url = 'Your url here';
     var response = await http.post(
-      Uri.parse(registerURL),
+      Uri.parse(signupURL),
       body: body,
       headers: {
         "Content-Type": "application/json",
