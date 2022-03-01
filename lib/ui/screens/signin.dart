@@ -42,7 +42,7 @@ class _SignInScreenState extends State<SignInScreen> {
   // Validator validator = Validator();
   bool _passwordInVisible = true;
   // final String baseURL = "https://10.0.2.2:8000/api/auth/signin";
-  final String baseURL = "http://localhost:8000/api/auth/signin";
+  final String baseURL = "http://localhost:8080/api/auth/signin";
 
   Future save(email, password) async {
     var res = await http.post(Uri.parse(baseURL),
@@ -89,7 +89,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   //   ),
                   // );
                   save(emailController.text,passwordController.text);
-                  Navigator.of(context).pushNamed(HOME);
+                  //Navigator.of(context).pushNamed(HOME);
                 },
               ),
               signUpTextRow(),
