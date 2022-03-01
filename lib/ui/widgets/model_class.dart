@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 const String registerURL = "http://127.0.0.1:8000/api/auth/signup";
-const String signupURL = "http://127.0.0.1:8000/api/auth/signin";
+const String signinURL = "http://127.0.0.1:8000/api/auth/signin";
 
 class AuthClass {
    register(name, email, contact, pass, city) async {
@@ -46,7 +46,7 @@ class AuthClass {
 
     String body = json.encode(data);
     var response = await http.post(
-      Uri.parse(signupURL),
+      Uri.parse(signinURL),
       body: body,
       headers: {
         "Content-Type": "application/json",
