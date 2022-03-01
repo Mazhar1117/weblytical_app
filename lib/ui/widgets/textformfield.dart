@@ -22,7 +22,7 @@ class CustomTextField extends StatelessWidget {
     required this.textEditingController,
     required this.keyboardType,
     required this.icon,
-    this.obscureText = false, 
+    this.obscureText = false,
     // this.validator,
     // required this.onPressed,
   }) : super(key: key);
