@@ -16,6 +16,7 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return const Scaffold(
       body: SignUpScreen(),
     );
@@ -210,13 +211,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget phoneTextFormField() {
-    return CustomTextField(
-      // onPressed: validator.validateMobile(contactController.text),
-      textEditingController: contactController,
-      keyboardType: TextInputType.number,
-      icon: Icons.phone,
-      hint: "Mobile Number",
-    );
+    return PhoneField(
+        // onPressed: validator.validateMobile(contactController.text),
+        textEditingController: contactController,
+        keyboardType: TextInputType.number,
+        hint: "Phone Number",
+        );
   }
 
   Widget passwordTextFormField() {
