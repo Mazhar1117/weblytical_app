@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:ui/constants/constants.dart';
 import 'package:ui/ui/screens/dashboard.dart';
 import 'package:ui/ui/widgets/custom_button.dart';
@@ -16,6 +17,7 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return const Scaffold(
       body: SignUpScreen(),
     );
@@ -42,6 +44,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController cityController = TextEditingController();
   TextEditingController contactController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey();
+  var onChangeValue = "";
   // Validator validator = Validator();
   bool _passwordInVisible = true;
   // final String baseURL = "https://127.0.0.1:8000/api/auth/signin";
@@ -76,7 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   AuthClass().register(
                     fNameController.text,
                     emailController.text,
-                    contactController.text,
+                    onChangeValue,
                     passwordController.text,
                     cityController.text,
                   );
@@ -210,12 +213,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget phoneTextFormField() {
-    return CustomTextField(
-      // onPressed: validator.validateMobile(contactController.text),
-      textEditingController: contactController,
-      keyboardType: TextInputType.number,
-      icon: Icons.phone,
-      hint: "Mobile Number",
+    // return PhoneField(
+    //     // onPressed: validator.validateMobile(contactController.text),
+    //     textEditingController: contactController,
+    //     keyboardType: TextInputType.number,
+    //     hint: "Phone Number",
+    //     );
+    return Material(
+      borderRadius: BorderRadius.circular(30.0),
+      elevation: _large ? 12 : (_medium ? 10 : 8),
+      child: IntlPhoneField(
+        // validator: validator,
+        controller: contactController,
+        keyboardType: TextInputType.phone,
+        decoration: InputDecoration(
+          fillColor: backgroundColor,
+          filled: true,
+          hintText: 'Phone Number',
+          hintStyle: TextStyle(color: Colors.grey[600]),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: BorderSide.none),
+        ),
+        initialCountryCode: 'PK',
+        // autovalidateMode: AutovalidateMode.always,
+        disableLengthCheck: true,
+        flagsButtonPadding: EdgeInsets.zero,
+        dropdownIcon: Icon(
+          Icons.arrow_drop_down,
+          size: 25.0,
+          color: Colors.orange[200],
+        ),
+        onChanged: (value) {
+          setState(() {
+            onChangeValue = value.completeNumber;
+          });
+        },
+      ),
     );
   }
 
@@ -276,4 +310,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+
 }

@@ -146,7 +146,7 @@ class _SignInScreenState extends State<SignInScreen> {
               fontWeight: FontWeight.bold,
               fontSize: Responsive.isDesktop(context)
                   ? 40.0
-                  : (Responsive.isTablet(context) ? 25.0 : 15),
+                  : (Responsive.isTablet(context) ? 25.0 : 20.0),
             ),
           ),
         ],
