@@ -7,10 +7,9 @@ class CustomTextField extends StatelessWidget {
   final String hint;
   final TextEditingController textEditingController;
   final TextInputType keyboardType;
-  // final String? Function(String?)? validator;
+  final String? Function(String?) validator;
 
   // final  onPressed;
-  final bool obscureText;
   final IconData icon;
   late double _width;
   late double _pixelRatio;
@@ -23,9 +22,7 @@ class CustomTextField extends StatelessWidget {
     required this.textEditingController,
     required this.keyboardType,
     required this.icon,
-    this.obscureText = false,
-    // this.validator,
-    // required this.onPressed,
+    required this.validator,
   }) : super(key: key);
 
   @override
@@ -38,7 +35,8 @@ class CustomTextField extends StatelessWidget {
       borderRadius: BorderRadius.circular(30.0),
       elevation: large ? 12 : (medium ? 10 : 8),
       child: TextFormField(
-        // validator: onPressed,
+        validator: validator,
+        
         controller: textEditingController,
         keyboardType: keyboardType,
         cursorColor: Colors.blue[200],
@@ -61,7 +59,8 @@ class PasswordField extends StatelessWidget {
   final String hint;
   final TextEditingController textEditingController;
   final TextInputType keyboardType;
-  // final  onPressed;
+  final String? Function(String?) validator;
+
   final bool obscureText;
   final IconData prefixIcon;
   final Widget suffix;
@@ -78,7 +77,7 @@ class PasswordField extends StatelessWidget {
     required this.prefixIcon,
     required this.obscureText,
     required this.suffix,
-    // required this.onPressed,
+    required this.validator,
   }) : super(key: key);
 
   @override
@@ -92,7 +91,8 @@ class PasswordField extends StatelessWidget {
       elevation: large ? 12 : (medium ? 10 : 8),
       child: TextFormField(
         obscureText: obscureText,
-        // validator: onPressed,
+
+        validator: validator,
         controller: textEditingController,
         keyboardType: keyboardType,
         cursorColor: Colors.blue[200],
@@ -116,12 +116,14 @@ class PhoneField extends StatefulWidget {
   final String hint;
   final TextEditingController textEditingController;
   final TextInputType keyboardType;
+  final String? Function(String?) validator;
 
   PhoneField({
     Key? key,
     required this.hint,
     required this.textEditingController,
     required this.keyboardType,
+    required this.validator,
     // required this.onPressed,
   }) : super(key: key);
 
@@ -150,7 +152,7 @@ class _PhoneFieldState extends State<PhoneField> {
       borderRadius: BorderRadius.circular(30.0),
       elevation: large ? 12 : (medium ? 10 : 8),
       child: IntlPhoneField(
-        // validator: validator,
+        validator: widget.validator,
         controller: widget.textEditingController,
         keyboardType: widget.keyboardType,
         decoration: InputDecoration(

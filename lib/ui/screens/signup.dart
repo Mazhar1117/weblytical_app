@@ -10,6 +10,7 @@ import 'package:ui/ui/widgets/model_class.dart';
 import 'package:ui/ui/widgets/responsive_ui.dart';
 import 'package:ui/ui/widgets/textformfield.dart';
 import 'package:http/http.dart' as http;
+import 'package:ui/utils/validator.dart';
 // import 'package:ui/utils/validator.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -17,7 +18,6 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return const Scaffold(
       body: SignUpScreen(),
     );
@@ -40,12 +40,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late bool _medium;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController fNameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController cityController = TextEditingController();
-  TextEditingController contactController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey();
   var onChangeValue = "";
-  // Validator validator = Validator();
+  Validator validator = Validator();
   bool _passwordInVisible = true;
   // final String baseURL = "https://127.0.0.1:8000/api/auth/signin";
 
@@ -77,13 +77,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 text: 'SIGN UP',
                 onPressed: () {
                   AuthClass().register(
-                    fNameController.text,
+                    nameController.text,
                     emailController.text,
                     onChangeValue,
                     passwordController.text,
                     cityController.text,
                   );
+                  if (_key.currentState!.validate()) {
+                    _key.currentState!.save();
+                    // use the email provided here
                   Navigator.of(context).pushNamed(HOME);
+                  }
                 },
               ),
               SizedBox(height: _height / 7),
@@ -93,6 +97,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+
+
 
   Widget clipShape() {
     return Stack(
@@ -167,7 +173,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         key: _key,
         child: Column(
           children: <Widget>[
-            firstNameTextFormField(),
+            nameTextFormField(),
             SizedBox(height: _height / 60.0),
             cityTextField(),
             SizedBox(height: _height / 60.0),
@@ -182,10 +188,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget firstNameTextFormField() {
+  Widget nameTextFormField() {
     return CustomTextField(
+      validator: (name) {
+        setState(() {
+          name = nameController.text;
+        });
+       return validator.validateName(name);
+      },
       // onPressed: validator.validateName(fNameController.text),
-      textEditingController: fNameController,
+      textEditingController: nameController,
       keyboardType: TextInputType.text,
       icon: Icons.person,
       hint: "Name",
@@ -194,7 +206,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget cityTextField() {
     return CustomTextField(
-      // onPressed: validator.validateName(lNameController.text),
+      validator: (city) {
+        setState(() {
+          city = cityController.text;
+        });
+        return validator.validateName(city);
+      },
       textEditingController: cityController,
       keyboardType: TextInputType.text,
       icon: Icons.location_city,
@@ -204,7 +221,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget emailTextFormField() {
     return CustomTextField(
-      // onPressed: validator.validateEmail(emailController.text),
+      validator: (email) {
+        setState(() {
+          email = emailController.text;
+        });
+       return validator.validateEmail(email);
+      },
       textEditingController: emailController,
       keyboardType: TextInputType.emailAddress,
       icon: Icons.email,
@@ -212,50 +234,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget phoneTextFormField() {
-    // return PhoneField(
-    //     // onPressed: validator.validateMobile(contactController.text),
-    //     textEditingController: contactController,
-    //     keyboardType: TextInputType.number,
-    //     hint: "Phone Number",
-    //     );
-    return Material(
-      borderRadius: BorderRadius.circular(30.0),
-      elevation: _large ? 12 : (_medium ? 10 : 8),
-      child: IntlPhoneField(
-        // validator: validator,
-        controller: contactController,
-        keyboardType: TextInputType.phone,
-        decoration: InputDecoration(
-          fillColor: backgroundColor,
-          filled: true,
-          hintText: 'Phone Number',
-          hintStyle: TextStyle(color: Colors.grey[600]),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: BorderSide.none),
-        ),
-        initialCountryCode: 'PK',
-        // autovalidateMode: AutovalidateMode.always,
-        disableLengthCheck: true,
-        flagsButtonPadding: EdgeInsets.zero,
-        dropdownIcon: Icon(
-          Icons.arrow_drop_down,
-          size: 25.0,
-          color: Colors.orange[200],
-        ),
-        onChanged: (value) {
-          setState(() {
-            onChangeValue = value.completeNumber;
-          });
-        },
-      ),
-    );
-  }
-
   Widget passwordTextFormField() {
     return PasswordField(
-      // onPressed: validator.validatePasswordLength(passwordController.text),
+      validator: (password) {
+        setState(() {
+          password = passwordController.text;
+        });
+        return validator.validatePasswordLength(password);
+      },
       keyboardType: TextInputType.number,
       textEditingController: passwordController,
       prefixIcon: Icons.lock,
@@ -311,4 +297,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  Widget phoneTextFormField() {
+    return Material(
+      borderRadius: BorderRadius.circular(30.0),
+      elevation: _large ? 12 : (_medium ? 10 : 8),
+      child: IntlPhoneField(
+        validator: (phone) {
+          setState(() {
+            phone = phoneController.text;
+          });
+          return validator.validateMobile(phone);
+        },
+        controller: phoneController,
+        keyboardType: TextInputType.phone,
+        decoration: InputDecoration(
+          fillColor: backgroundColor,
+          filled: true,
+          hintText: 'Phone Number',
+          hintStyle: TextStyle(color: Colors.grey[600]),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: BorderSide.none),
+        ),
+        initialCountryCode: 'PK',
+        // autovalidateMode: AutovalidateMode.always,
+        disableLengthCheck: true,
+        flagsButtonPadding: EdgeInsets.zero,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        invalidNumberMessage: 'Invalid mobile number',
+        // validator: ,
+        dropdownIcon: Icon(
+          Icons.arrow_drop_down,
+          size: 25.0,
+          color: Colors.orange[200],
+        ),
+        onChanged: (value) {
+          setState(() {
+            onChangeValue = value.completeNumber;
+          });
+        },
+      ),
+    );
+  }
 }
