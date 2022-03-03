@@ -9,6 +9,7 @@ import 'package:ui/ui/widgets/model_class.dart';
 import 'package:ui/ui/widgets/responsive_ui.dart';
 import 'package:ui/ui/widgets/textformfield.dart';
 import 'package:ui/utils/responsive.dart';
+import 'package:ui/utils/validator.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey();
-  // Validator validator = Validator();
+  Validator validator = Validator();
   bool _passwordInVisible = true;
 
   @override
@@ -78,6 +79,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     passwordController.text,
                     context
                   );
+                   if (_key.currentState!.validate()) {
+                            _key.currentState!.save();
+                            // use the email provided here
+                          }
                   Navigator.of(context).pushNamed(HOME);
                 },
               ),
@@ -194,7 +199,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget emailTextFormField() {
     return CustomTextField(
-      // onPressed: validator.validateEmail(emailController.text),
+       validator: (email) {
+        setState(() {
+          email = emailController.text;
+        });
+        return validator.validateEmail(email);
+      },
       keyboardType: TextInputType.emailAddress,
       textEditingController: emailController,
       icon: Icons.email,
@@ -204,7 +214,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget passwordTextFormField() {
     return PasswordField(
-      // onPressed: validator.validatePasswordLength(passwordController.text),
+       validator: (pass) {
+        setState(() {
+          pass = passwordController.text;
+        });
+       return validator.validatePasswordLength(pass);
+      },
       keyboardType: TextInputType.number,
       textEditingController: passwordController,
       prefixIcon: Icons.lock,
