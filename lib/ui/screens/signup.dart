@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:ui/constants/constants.dart';
 import 'package:ui/ui/screens/dashboard.dart';
 import 'package:ui/ui/widgets/custom_button.dart';
@@ -76,17 +77,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 medium: _medium,
                 text: 'SIGN UP',
                 onPressed: () {
-                  AuthClass().register(
-                    nameController.text,
-                    emailController.text,
-                    onChangeValue,
-                    passwordController.text,
-                    cityController.text,
-                  );
                   if (_key.currentState!.validate()) {
                     _key.currentState!.save();
+                    AuthClass().register(
+                      nameController.text,
+                      emailController.text,
+                      onChangeValue,
+                      passwordController.text,
+                      cityController.text,
+                    );
                     // use the email provided here
-                  Navigator.of(context).pushNamed(HOME);
+                    Navigator.of(context).pushNamed(HOME);
                   }
                 },
               ),
@@ -97,8 +98,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-
-
 
   Widget clipShape() {
     return Stack(
@@ -194,7 +193,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         setState(() {
           name = nameController.text;
         });
-       return validator.validateName(name);
+        return validator.validateName(name);
       },
       // onPressed: validator.validateName(fNameController.text),
       textEditingController: nameController,
@@ -225,7 +224,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         setState(() {
           email = emailController.text;
         });
-       return validator.validateEmail(email);
+        return validator.validateEmail(email);
       },
       textEditingController: emailController,
       keyboardType: TextInputType.emailAddress,
@@ -302,40 +301,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
       borderRadius: BorderRadius.circular(30.0),
       elevation: _large ? 12 : (_medium ? 10 : 8),
       child: IntlPhoneField(
-        validator: (phone) {
-          setState(() {
-            phone = phoneController.text;
-          });
-          return validator.validateMobile(phone);
+        onChanged: (value) {
+          onChangeValue = value.completeNumber;
         },
-        controller: phoneController,
         keyboardType: TextInputType.phone,
+        controller: phoneController,
         decoration: InputDecoration(
           fillColor: backgroundColor,
           filled: true,
-          hintText: 'Phone Number',
+          hintText: 'Mobile Number',
           hintStyle: TextStyle(color: Colors.grey[600]),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
               borderSide: BorderSide.none),
         ),
         initialCountryCode: 'PK',
-        // autovalidateMode: AutovalidateMode.always,
-        disableLengthCheck: true,
-        flagsButtonPadding: EdgeInsets.zero,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        invalidNumberMessage: 'Invalid mobile number',
-        // validator: ,
+        disableLengthCheck: false,
+        flagsButtonPadding: EdgeInsets.zero,
         dropdownIcon: Icon(
           Icons.arrow_drop_down,
           size: 25.0,
           color: Colors.orange[200],
         ),
-        onChanged: (value) {
-          setState(() {
-            onChangeValue = value.completeNumber;
-          });
-        },
       ),
     );
   }

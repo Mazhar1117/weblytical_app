@@ -36,7 +36,6 @@ class CustomTextField extends StatelessWidget {
       elevation: large ? 12 : (medium ? 10 : 8),
       child: TextFormField(
         validator: validator,
-        
         controller: textEditingController,
         keyboardType: keyboardType,
         cursorColor: Colors.blue[200],
@@ -91,7 +90,6 @@ class PasswordField extends StatelessWidget {
       elevation: large ? 12 : (medium ? 10 : 8),
       child: TextFormField(
         obscureText: obscureText,
-
         validator: validator,
         controller: textEditingController,
         keyboardType: keyboardType,
@@ -113,17 +111,13 @@ class PasswordField extends StatelessWidget {
 }
 
 class PhoneField extends StatefulWidget {
-  final String hint;
   final TextEditingController textEditingController;
-  final TextInputType keyboardType;
-  final String? Function(String?) validator;
+  // final String? Function(String?) validator;
 
   PhoneField({
     Key? key,
-    required this.hint,
     required this.textEditingController,
-    required this.keyboardType,
-    required this.validator,
+    // required this.validator,
     // required this.onPressed,
   }) : super(key: key);
 
@@ -132,16 +126,11 @@ class PhoneField extends StatefulWidget {
 }
 
 class _PhoneFieldState extends State<PhoneField> {
-  var onchangeval = "";
-  // final  onPressed;
+  // var onchangeval = "";
   late double _width;
-
   late double _pixelRatio;
-
   late bool large;
-
   late bool medium;
-
   @override
   Widget build(BuildContext context) {
     _width = MediaQuery.of(context).size.width;
@@ -152,33 +141,26 @@ class _PhoneFieldState extends State<PhoneField> {
       borderRadius: BorderRadius.circular(30.0),
       elevation: large ? 12 : (medium ? 10 : 8),
       child: IntlPhoneField(
-        validator: widget.validator,
+        keyboardType: TextInputType.phone,
         controller: widget.textEditingController,
-        keyboardType: widget.keyboardType,
         decoration: InputDecoration(
           fillColor: backgroundColor,
           filled: true,
-          hintText: widget.hint,
+          hintText: 'Mobile Number',
           hintStyle: TextStyle(color: Colors.grey[600]),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
               borderSide: BorderSide.none),
         ),
         initialCountryCode: 'PK',
-        // autovalidateMode: AutovalidateMode.always,
-        disableLengthCheck: true,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        disableLengthCheck: false,
         flagsButtonPadding: EdgeInsets.zero,
         dropdownIcon: Icon(
           Icons.arrow_drop_down,
           size: 25.0,
           color: Colors.orange[200],
         ),
-//         onChanged: (value) {
-//           setState(() {
-//             onchangeval = value.completeNumber;
-//           });
-// Scaffold.of(context).showSnackBar(SnackBar(content: Text("Not Eklendi"), duration: Duration(seconds: 2));
-//         },
       ),
     );
   }

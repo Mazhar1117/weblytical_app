@@ -13,7 +13,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: buttonColor,
+      backgroundColor: Colors.white54,
       key: context.read<MenuController>().scaffoldKey,
       drawer: const SideMenu(),
       body: SafeArea(

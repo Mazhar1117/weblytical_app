@@ -16,25 +16,16 @@ class SideMenu extends StatelessWidget {
             child: Image.asset('assets/images/login.png'),
           ),
           DrawerListTile(
-            title: "Dashboard",
+            title: "Profile",
             icon: Icons.home,
             press: () {},
           ),
           DrawerListTile(
-            title: "Transaction",
+            title: "Diagnostic",
             icon: Icons.home,
             press: () {},
           ),
-          DrawerListTile(
-            title: "Task",
-            icon: Icons.home,
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Documents",
-            icon: Icons.home,
-            press: () {},
-          ),
+        
         ],
       ),
     );

@@ -62,21 +62,16 @@ class _SignInScreenState extends State<SignInScreen> {
               signInTextRow(),
               form(),
               forgetPassTextRow(),
-              SizedBox(height: _height / 12),
+              SizedBox(height: _height / 25),
               CustomButton(
                 large: _large,
                 width: _width,
                 medium: _medium,
                 text: 'SIGN IN',
                 onPressed: () {
-                  // Scaffold.of(context).showSnackBar(
-                  //   const SnackBar(
-                  //     content: Text('Login Successful'),
-                  //   ),
-                  // );
+                  if (_key.currentState!.validate()) {
                   AuthClass().login(
                       emailController.text, passwordController.text, context);
-                  if (_key.currentState!.validate()) {
                     _key.currentState!.save();
                     // use the email provided here
                     Navigator.of(context).pushNamed(HOME);
@@ -188,6 +183,7 @@ class _SignInScreenState extends State<SignInScreen> {
             emailTextFormField(),
             SizedBox(height: _height / 40.0),
             passwordTextFormField(),
+            SizedBox(height: _height / 40.0),
           ],
         ),
       ),
@@ -197,10 +193,14 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget emailTextFormField() {
     return CustomTextField(
       validator: (email) {
-        setState(() {
-          email = emailController.text;
-        });
-        return validator.validateEmail(email);
+        if(email!.isEmpty) {
+          return "Email field can't be empty";
+        }
+        return null;
+        // setState(() {
+        //   email = emailController.text;
+        // });
+        // return validator.validateEmail(email);
       },
       keyboardType: TextInputType.emailAddress,
       textEditingController: emailController,
@@ -212,10 +212,10 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget passwordTextFormField() {
     return PasswordField(
       validator: (pass) {
-        setState(() {
-          pass = passwordController.text;
-        });
-        return validator.validatePasswordLength(pass);
+        if (pass!.isEmpty) {
+          return 'Name is required';
+        }
+        return null;
       },
       keyboardType: TextInputType.number,
       textEditingController: passwordController,
