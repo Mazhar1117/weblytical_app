@@ -193,6 +193,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget emailTextFormField() {
     return CustomTextField(
       validator: (email) {
+<<<<<<< HEAD
         if(email!.isEmpty) {
           return "Email field can't be empty";
         }
@@ -201,6 +202,12 @@ class _SignInScreenState extends State<SignInScreen> {
         //   email = emailController.text;
         // });
         // return validator.validateEmail(email);
+=======
+        setState(() {
+          email = emailController.text;
+        });
+        return validator.validateEmail(email);
+>>>>>>> aaa01b90ad0701bb35305619074ebc5d1a9e57b3
       },
       keyboardType: TextInputType.emailAddress,
       textEditingController: emailController,
@@ -212,10 +219,17 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget passwordTextFormField() {
     return PasswordField(
       validator: (pass) {
+<<<<<<< HEAD
         if (pass!.isEmpty) {
           return 'Name is required';
         }
         return null;
+=======
+        setState(() {
+          pass = passwordController.text;
+        });
+        return validator.validatePasswordLength(pass);
+>>>>>>> aaa01b90ad0701bb35305619074ebc5d1a9e57b3
       },
       keyboardType: TextInputType.number,
       textEditingController: passwordController,
