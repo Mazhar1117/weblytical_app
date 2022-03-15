@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 const firstGradient = LinearGradient(
@@ -38,3 +40,5 @@ const String SIGN_UP = 'signup';
 const String DASHBOARD = 'dashboard';
 const String HOME = 'home';
 const String PROFILE = 'profile';
+const String DIAGNOSTICS = 'diagnostics';
+
